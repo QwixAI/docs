@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "maple",
   "name": "QwixAI",
   "colors": {
-    "primary": "#7C3AED",
-    "light": "#A78BFA",
-    "dark": "#5B21B6"
+    "primary": "#c400ff",
+    "light": "#9d07ff",
+    "dark": "#5c05b9"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -27,10 +27,7 @@
       }
     ]
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
+  "logo": "/logo/dark.svg",
   "navbar": {
     "primary": {
       "type": "button",
@@ -54,15 +51,14 @@
     "decoration": "grid"
   },
   "appearance": {
-    "default": "dark",
-    "strict": false
+    "default": "dark"
+  },
+  "fonts": {
+    "family": "Poppins"
   },
   "api": {
     "playground": {
       "display": "interactive"
     }
-  },
-  "banner": {
-    "dismissible": false
   }
 }
