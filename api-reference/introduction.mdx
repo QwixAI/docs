@@ -1,21 +1,25 @@
 ---
-title: "Welcome"
+title: Introduction
+description: "Welcome to the QwixAI API documentation."
 ---
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Overview
 
-<Card title="Plant Store Endpoints" icon="leaf" href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json">
-  View the OpenAPI specification file
-</Card>
+The **QwixAI API** gives you full programmatic access to everything our platform offers.
+We built QwixAI **API-first**, meaning every feature in our app is backed by the same API you're using here.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All endpoints require authentication via an **API key**, which you can generate on [qwix.chat](https://qwix.chat).
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+Pass it with every request using the `Authorization` header:
+
+```bash
+curl --request GET \
+  --url https://api.qwix.chat/api/v1/... \
+  --header 'Authorization: Bearer <your-api-key>'
 ```
+
+<Note>
+  Every route also accepts your personal **JWT token** — since QwixAI runs on the same API internally. Only use this when building a custom UI on top of QwixAI, not for general integrations.
+</Note>
