@@ -15,12 +15,9 @@
         "pages": [
           "api-reference/introduction",
           {
-            "group": "Endpoint examples",
+            "group": "User",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/User/get-profile"
             ]
           }
         ]
