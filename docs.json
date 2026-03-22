@@ -14,8 +14,13 @@
         "tab": "API Reference",
         "pages": [
           "api-reference/introduction",
-          "api-reference/user/get-profile",
-          "api-reference/user/update-profile"
+          {
+            "group": "User",
+            "pages": [
+              "api-reference/user/get-profile",
+              "api-reference/user/update-profile"
+            ]
+          }
         ]
       }
     ]
