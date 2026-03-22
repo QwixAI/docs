@@ -3,9 +3,9 @@
   "theme": "maple",
   "name": "QwixAI",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#c400ff",
+    "light": "#9d07ff",
+    "dark": "#5c05b9"
   },
   "favicon": "/favicon.svg",
   "navigation": {
