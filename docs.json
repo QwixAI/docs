@@ -13,11 +13,14 @@
       {
         "tab": "API Reference",
         "pages": [
-          "api-reference/introduction"
+          "api-reference/introduction",
+          "api-reference/user/get-profile",
+          "api-reference/user/update-profile"
         ]
       }
     ]
   },
+  "openapi": "/api-reference/openapi.json",
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
