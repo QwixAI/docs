@@ -15,9 +15,10 @@
         "pages": [
           "api-reference/introduction",
           {
-            "group": "Model",
+            "group": "User",
+            "openapi": "api-reference/openapi.json",
             "pages": [
-              "api-reference/endpoint/webhook"
+              "get-profile"
             ]
           }
         ]
