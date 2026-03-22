@@ -11,15 +11,9 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "API",
+        "tab": "API Reference",
         "pages": [
-          "api-reference/introduction",
-          {
-            "group": "User",
-            "pages": [
-              "api-reference/User/get-profile"
-            ]
-          }
+          "api-reference/introduction"
         ]
       }
     ]
