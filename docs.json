@@ -11,19 +11,21 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "API",
+        "tab": "API Reference",
         "pages": [
           "api-reference/introduction",
           {
             "group": "User",
             "pages": [
-              "api-reference/User/get-profile"
+              "api-reference/user/get-profile",
+              "api-reference/user/update-profile"
             ]
           }
         ]
       }
     ]
   },
+  "openapi": "api-reference/openapi.json",
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
