@@ -16,9 +16,8 @@
           "api-reference/introduction",
           {
             "group": "User",
-            "openapi": "api-reference/openapi.json",
             "pages": [
-              "get-profile"
+              "api-reference/User/get-profile"
             ]
           }
         ]
