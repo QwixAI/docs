@@ -20,12 +20,27 @@
               "api-reference/user/get-profile",
               "api-reference/user/update-profile"
             ]
+          },
+          {
+            "group": "Conversations",
+            "pages": [
+              "api-reference/conversations/list-conversations",
+              "api-reference/conversations/create-conversation",
+              {
+                "group": "Message",
+                "expanded": true,
+                "pages": [
+                  "api-reference/conversations/message/list-messages",
+                  "api-reference/conversations/message/send-user-message"
+                ]
+              }
+            ]
           }
         ]
       }
     ]
   },
-  "openapi": "api-reference/openapi.json",
+  "openapi": "/api-reference/openapi.json",
   "logo": {
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
@@ -58,7 +73,8 @@
   "api": {
     "playground": {
       "display": "interactive"
-    }
+    },
+    "openapi": "api-reference/openapi.json"
   },
   "thumbnails": {
     "appearance": "dark"
