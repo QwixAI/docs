@@ -38,7 +38,9 @@
           },
           {
             "group": "Model",
-            "pages": []
+            "pages": [
+              "api-reference/model/list-models"
+            ]
           }
         ]
       }
