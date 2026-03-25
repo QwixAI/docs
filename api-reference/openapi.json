@@ -19,6 +19,144 @@
     }
   ],
   "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Register",
+        "description": "Creates a new user account. A verification email is sent; the account remains in `needs_verification` until `/auth/verify` is completed.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or duplicate user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Authenticates with email and password and returns a JWT.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JWT issued",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Account not active or needs verification",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginForbiddenBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/verify": {
+      "get": {
+        "summary": "Verify email",
+        "description": "Completes email verification using the token from the verification link.",
+        "security": [],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Verification token from the email link"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account verified",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/models": {
       "get": {
         "summary": "List models",
@@ -44,6 +182,160 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-key": {
+      "get": {
+        "summary": "List API keys",
+        "description": "Lists API keys for the current user (paginated). **Requires JWT** — authenticating with an API key returns 403.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated API keys (hashes are never exposed)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedApiKeyList"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (e.g. session is API-key auth)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create API key",
+        "description": "Creates a new API key. The raw key is returned **once** in the response. **Requires JWT** — API key auth returns 403.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateApiKeyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Key created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateApiKeyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (e.g. session is API-key auth)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api-key/{id}": {
+      "delete": {
+        "summary": "Delete API key",
+        "description": "Revokes an API key by id. **Requires JWT** — API key auth returns 403.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Key not found or not owned by user",
             "content": {
               "application/json": {
                 "schema": {
@@ -138,6 +430,54 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/password": {
+      "post": {
+        "summary": "Change password",
+        "description": "Changes the password after validating the current password.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed or current password wrong",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
                 }
               }
             }
@@ -250,7 +590,7 @@
     "/conversations/{conversationId}/messages": {
       "get": {
         "summary": "List messages",
-        "description": "Paginated messages for a conversation owned by the current user.",
+        "description": "Paginated messages for a conversation owned by the current user. For encrypted conversations, send `X-Conversation-Encryption-Password` with the same password used at creation.",
         "parameters": [
           {
             "name": "conversationId",
@@ -260,6 +600,16 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          {
+            "name": "X-Conversation-Encryption-Password",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 8
+            },
+            "description": "Required when the conversation has `encryptionEnabled: true`. Used only to decrypt message bodies in the response."
           },
           {
             "$ref": "#/components/parameters/Page"
@@ -275,6 +625,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PaginatedConversationMessageList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid encryption header for an encrypted conversation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
                 }
               }
             }
@@ -303,7 +663,7 @@
       },
       "post": {
         "summary": "Send user message",
-        "description": "Appends a user message to the conversation.",
+        "description": "Appends a user message to the conversation. Encrypted conversations require `encryptionPassword` in the body for each new message.",
         "parameters": [
           {
             "name": "conversationId",
@@ -801,7 +1161,7 @@
       },
       "Conversation": {
         "type": "object",
-        "required": ["id", "model", "createdAt"],
+        "required": ["id", "model", "createdAt", "encryptionEnabled"],
         "properties": {
           "id": {
             "type": "string",
@@ -813,6 +1173,10 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "encryptionEnabled": {
+            "type": "boolean",
+            "description": "True if the conversation was created with `encryptionPassword` (message bodies are encrypted at rest)."
           }
         }
       },
@@ -838,6 +1202,11 @@
           "modelId": {
             "type": "string",
             "format": "uuid"
+          },
+          "encryptionPassword": {
+            "type": "string",
+            "minLength": 8,
+            "description": "If set, enables AES-256-GCM encryption for all messages in this conversation. The password is not stored; only ciphertext is persisted. Use the same password with `encryptionPassword` (POST message) and header `X-Conversation-Encryption-Password` (GET messages)."
           }
         }
       },
@@ -888,6 +1257,11 @@
             "type": "string",
             "minLength": 1,
             "description": "Non-empty after trim"
+          },
+          "encryptionPassword": {
+            "type": "string",
+            "minLength": 8,
+            "description": "Required when `encryptionEnabled` is true for this conversation. Used to derive the encryption key (not stored in the database)."
           }
         }
       },
